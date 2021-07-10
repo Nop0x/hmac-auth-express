@@ -56,7 +56,8 @@ module.exports = function hmac(secret, options = {}) {
         if (typeof request.body === 'object' && request.body !== null && ((!Array.isArray(request.body) && Object.keys(request.body).length > 0) || request.body.length > 0)) {
             const hash = crypto.createHash('md5');
             hash.update(JSON.stringify(request.body)); // we add it as a json string
-            hmac.update(hash.digest('hex'));
+            const digest = hash.digest('hex');
+            hmac.update(digest.toString());
         }
 
         const hmacDigest = hmac.digest(); // returns Uint8Array buffer
